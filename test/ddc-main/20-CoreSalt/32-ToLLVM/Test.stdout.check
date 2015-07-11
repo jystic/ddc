@@ -90,8 +90,8 @@ l14.entry:
 
 
 
-!11 = metadata !{metadata !"ptr_r", metadata !10, i32 0}
-!10 = metadata !{metadata !"ptr_ROOT_9", null, i32 1}
+!11 = !{!"ptr_r", !10, i32 0}
+!10 = !{!"ptr_ROOT_9", null, i32 1}
 
 
 

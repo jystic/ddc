@@ -19,7 +19,6 @@ instance Pretty Metadata where
 instance Pretty MDecl where
   ppr (MDecl ref m) =  ppr ref 
                     <> space <> equals <> space 
-                    <> text "metadata" <> space
                     <> ppr m
 
 instance Pretty (MRef) where
@@ -38,9 +37,9 @@ instance Pretty MDNodeOp where
  ppr elt
   = case elt of
          OpNull        -> text "null"
-         OpMDString ms -> text "metadata" <> space <> ppr ms
-         OpMDNode   ns -> text "metadata" <> space <> ppr ns
-         OpMDRef    r  -> text "metadata" <> space <> ppr r 
+         OpMDString ms -> ppr ms
+         OpMDNode   ns -> ppr ns
+         OpMDRef    r  -> ppr r
          OpBool     b  -> text "i32"      <> space <> text (if b then "1" else "0")
          OpType     t  -> ppr t 
 

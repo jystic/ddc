@@ -38,7 +38,7 @@ data MDSuper
             nameMap     :: MDEnv
             
             -- Metadata nodes, to be pretty-printed with the module as
-            --    declarations. e.g. "1 = !{ metadata "id", !parent, !i11}
+            --    declarations. e.g. "!1 = !{!"id", !parent, !i11}
           , decls       :: [MDecl]
           } deriving Show
 

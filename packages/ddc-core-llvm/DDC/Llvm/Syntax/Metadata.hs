@@ -25,7 +25,7 @@ data Metadata
         
 
 -- | Maps matadata references to metadata nodes
---      e.g. !2 = !{ metadata "id", !0, !i11}
+--      e.g. !2 = !{!"id", !0, !i11}
 data MDecl
         = MDecl MRef Metadata
         deriving Show
