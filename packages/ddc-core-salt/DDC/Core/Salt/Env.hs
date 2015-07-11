@@ -261,6 +261,9 @@ typeOfPrimStore jj
         PrimStoreWrite
          -> tForall kData $ \t -> tAddr  `tFunPE` tNat `tFunPE` t `tFunPE` tVoid
 
+        PrimStoreCopy
+         -> tAddr  `tFunPE` tAddr `tFunPE` tNat `tFunPE` tVoid
+
         PrimStorePlusAddr
          -> tAddr  `tFunPE` tNat `tFunPE` tAddr
 
