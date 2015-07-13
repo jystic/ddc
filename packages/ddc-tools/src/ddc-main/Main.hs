@@ -244,7 +244,8 @@ getDriverConfig config filePath
  = do   Just builder    <- determineDefaultBuilder (defaultBuilderConfig config)
         let runtimeConfig
              = Runtime.Config
-             { Runtime.configHeapSize             = configRuntimeHeapSize config }
+             { Runtime.configHeapSize             = configRuntimeHeapSize config
+             , Runtime.configSlotStackSize        = configRuntimeSlotStackSize config }
 
         let dconfig
              = Driver.Config

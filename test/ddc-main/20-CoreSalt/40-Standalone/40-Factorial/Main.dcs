@@ -4,12 +4,14 @@ export {
         main      : [r1 r2 : Region]. Nat# -> Ptr# r1 (Ptr# r1 Word8#) -> Int#;
 }
 import foreign c value {
-        showInt   : [r : Region].Int# -> Ptr# r Word8#;
-        putStr_v  : [r : Region].Ptr# r Word8# -> Void#;
+        allocInit   : Nat# -> Unit;
+        collectInit : Nat# -> Unit;
+        showInt     : [r : Region].Int# -> Ptr# r Word8#;
+        putStr_v    : [r : Region].Ptr# r Word8# -> Void#;
 }
 with letrec {
 
-allocRaw [r : Region] (tag : Tag#) (bytesPayload : Nat#)
+allocRaw_conflict [r : Region] (tag : Tag#) (bytesPayload : Nat#)
          : Ptr# r Obj
  = do { bytesObj        = add# [Nat#] 8# bytesPayload;
         addr            = alloc# bytesObj;
@@ -30,7 +32,7 @@ allocRaw [r : Region] (tag : Tag#) (bytesPayload : Nat#)
 
 boxWord32 [r : Region] (x : Word32#)
           : Ptr# r Obj
- = do { obj     = allocRaw [r] TAG0# 4#;
+ = do { obj     = allocRaw_conflict [r] TAG0# 4#;
         addr    = takePtr# [r] [Obj] obj;
         write#  [Word32#] addr 8# x;
         return# [Ptr# r Obj] obj;
@@ -94,7 +96,8 @@ fac [r1 r2 : Region] (x: Ptr# r1 Obj) : Ptr# r2 Obj
 
 -- needs support for private
 main [r1 r2 : Region] (argc : Nat#) (argv : Ptr# r1 (Ptr# r1 Word8#)) : Int#
- = do { create# 1000#;
+ = do { allocInit   1000#;
+        collectInit 1000#;
         x       = boxWord32 [r1] 10w32#;
         x2      = fac [r1] [r2] x;
         x2u     = unboxWord32 [r2] x2;

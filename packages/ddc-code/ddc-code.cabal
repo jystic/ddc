@@ -18,6 +18,7 @@ data-files:
         salt/primitive/Vector.dcs
         salt/primitive32/Int.dcs
         salt/primitive64/Int.dcs
+        salt/runtime/Collect.dcs
         salt/runtime32/Object.dcs
         salt/runtime64/Object.dcs
 

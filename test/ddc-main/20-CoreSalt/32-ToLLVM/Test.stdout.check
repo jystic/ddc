@@ -10,9 +10,15 @@ size2# :: [^ : Data].Nat#
 
 -- Get the size of prim types.
 %s.Obj = type <{i64}>
+@_DDC__heapBase = external global  i64
 @_DDC__heapTop = external global  i64
 @_DDC__heapMax = external global  i64
-declare external ccc i64 @malloc(i64 ) align 8
+@_DDC__heapBackBase = external global  i64
+@_DDC__heapBackTop = external global  i64
+@_DDC__heapBackMax = external global  i64
+@_DDC__slotBase = external global  i64
+@_DDC__slotTop = external global  i64
+@_DDC__slotMax = external global  i64
 declare external ccc void @abort() align 8
 declare external void @llvm.gcroot(i8** , i8* )
 declare external void @llvm.memcpy.p0i8.p0i8.i64(i8* , i8* , i64 , i32 , i1 )
@@ -49,9 +55,15 @@ l7.entry:
 
 -- Get the log2 size of prim types.
 %s.Obj = type <{i64}>
+@_DDC__heapBase = external global  i64
 @_DDC__heapTop = external global  i64
 @_DDC__heapMax = external global  i64
-declare external ccc i64 @malloc(i64 ) align 8
+@_DDC__heapBackBase = external global  i64
+@_DDC__heapBackTop = external global  i64
+@_DDC__heapBackMax = external global  i64
+@_DDC__slotBase = external global  i64
+@_DDC__slotTop = external global  i64
+@_DDC__slotMax = external global  i64
 declare external ccc void @abort() align 8
 declare external void @llvm.gcroot(i8** , i8* )
 declare external void @llvm.memcpy.p0i8.p0i8.i64(i8* , i8* , i64 , i32 , i1 )
@@ -101,9 +113,15 @@ l14.entry:
 
 -- Function arguments without names still need to appear in the generated code.
 %s.Obj = type <{i64}>
+@_DDC__heapBase = external global  i64
 @_DDC__heapTop = external global  i64
 @_DDC__heapMax = external global  i64
-declare external ccc i64 @malloc(i64 ) align 8
+@_DDC__heapBackBase = external global  i64
+@_DDC__heapBackTop = external global  i64
+@_DDC__heapBackMax = external global  i64
+@_DDC__slotBase = external global  i64
+@_DDC__slotTop = external global  i64
+@_DDC__slotMax = external global  i64
 declare external ccc void @abort() align 8
 declare external void @llvm.gcroot(i8** , i8* )
 declare external void @llvm.memcpy.p0i8.p0i8.i64(i8* , i8* , i64 , i32 , i1 )

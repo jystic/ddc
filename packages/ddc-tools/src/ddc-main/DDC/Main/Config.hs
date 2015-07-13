@@ -151,6 +151,9 @@ data Config
           -- | Default size of heap for compiled program.
         , configRuntimeHeapSize :: Integer
 
+          -- | Default size of slot stack for compiled program.
+        , configRuntimeSlotStackSize :: Integer
+
           -- | Strategy for linking the runtime.
         , configRuntimeLinkStrategy :: D.RuntimeLinkStrategy
 
@@ -201,6 +204,7 @@ getDefaultConfig
  
             -- Runtime ------------------
           , configRuntimeHeapSize = 64 * 1024 * 1024
+          , configRuntimeSlotStackSize = 1024 * 1024
           , configRuntimeLinkStrategy = D.LinkDefault
  
             -- Intermediates ------------

@@ -17,7 +17,8 @@ import DDC.Build.Interface.Store        (Store)
 baseSaltFiles :: Builder -> [FilePath]
 baseSaltFiles builder
  = let  bits    = show $ archPointerWidth $ platformArch $ buildTarget builder
-   in   [ "salt" </> "runtime"   ++ bits </> "Object.dcs" ]
+   in   [ "salt" </> "runtime" ++ bits </> "Object.dcs"
+        , "salt" </> "runtime"         </> "Collect.dcs" ]
 
 
 baseSeaFiles  :: Builder -> [FilePath]

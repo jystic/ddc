@@ -129,6 +129,7 @@ build   (Spec   srcDC_ optionsDDC _fragment
                          $ systemTee False 
                                 (ddcBin
                                 ++ " "               ++ intercalate " " optionsDDC
+                                ++ " -keep-ll-files"
                                 ++ " -output "       ++ mainBin
                                 ++ " -output-dir "   ++ buildDir
                                 ++ " -make "         ++ srcDC)
@@ -140,6 +141,7 @@ build   (Spec   srcDC_ optionsDDC _fragment
                          $ systemTee False
                                 (ddcBin
                                 ++ " "               ++ intercalate " " optionsDDC
+                                ++ " -keep-ll-files"
                                 ++ " -output-dir "   ++ buildDir
                                 ++ " -compile "      ++ srcDC)
                                 ""

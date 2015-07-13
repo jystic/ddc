@@ -111,6 +111,10 @@ convertSuperType pp kenv tt
         C.TApp{}
          |  (tsArgs, tResult)    <- takeTFunArgResult tt'
          ,  not $ null tsArgs
+
+        -- JS 2015-07-02 - Disabled to allow the import of foreign C values.
+        -- TODO Don't forget to add a ticket for this.
+
          -> do  tsArgs'  <- mapM (convertType pp kenv) tsArgs
                 tResult' <- convertType pp kenv tResult
                 return (tsArgs', tResult')
@@ -120,7 +124,7 @@ convertSuperType pp kenv tt
             in  convertSuperType pp kenv' t
 
         _ -> throw $ ErrorInvalidType tt'
-                   $ Just "Cannot use this as the type of a super."
+                   $ Just ("Cannot use this as the type of a super: " ++ show tt')
 
 
 -- Imports --------------------------------------------------------------------
@@ -207,7 +211,7 @@ convTyCon platform tycon
                                    $ Just "Not a primitive type constructor."
 
         _ -> throw $ ErrorInvalidTyCon tycon
-                   $ Just "Cannot convert type constructor."
+                   $ Just ("Cannot convert type constructor: " ++ show tycon)
 
 
 -- | Type of Heap objects.

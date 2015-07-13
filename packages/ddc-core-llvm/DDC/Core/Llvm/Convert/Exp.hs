@@ -273,8 +273,12 @@ convertExp ctx ectx xx
                  return $ Seq.singleton $ annotNil 
                         $ ISet vDst x'
 
+         -- Casts
+         C.XCast _ _ x
+           -> convertExp ctx ectx x
+
+         _
          -- Primitive operators.
-         C.XApp{}
           | Just (C.XVar _ (C.UPrim (A.NamePrimOp p) tPrim), args) <- takeXApps xx
           , mDst        <- takeNonVoidVarOfContext ectx
           , Just go     <- foldl (<|>) empty
@@ -300,11 +304,15 @@ convertExp ctx ectx xx
                 return  $ Seq.singleton $ annotNil
                         $ ICall  mv CallTypeStd Nothing
                                  tResult nFun xsArgs_value' []
-         -- Casts
-         C.XCast _ _ x
-           -> convertExp ctx ectx x
 
+        
          _ -> throw $ ErrorInvalidExp xx
-                    $ Just "Was expecting a variable, primitive, or super application."
+                    $ Just ("Was expecting a variable, primitive, or super application: " ++
+                            foo (takeXApps xx))
 
+  where
+    foo Nothing = ""
+    foo (Just (x, xs)) = bar (x:xs)
 
+    bar [] = ""
+    bar (x:xs) = "\n" ++ show x ++ "\n" ++ bar xs

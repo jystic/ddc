@@ -78,7 +78,7 @@ convertM mm
                 , moduleBody           = body' }
 
         -- Initialise the salt heap. Hardcode this for now, because eventually this will target tetra.
-        mm_init <- case initRuntime (Config 10000)  mm_tetra of
+        mm_init <- case initRuntime (Config 1000000 100000)  mm_tetra of
                         Nothing   -> return mm_tetra
                         Just mm'  -> return mm'
 

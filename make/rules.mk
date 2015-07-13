@@ -247,5 +247,5 @@ packages/ddc-war/%.o : packages/ddc-war/%.hs
 
 %.o : %.dcs bin/ddc
 	@echo "* Compiling $<"
-	@bin/ddc -infer -c $<
+	@bin/ddc -infer -keep-ll-files -c $<
 

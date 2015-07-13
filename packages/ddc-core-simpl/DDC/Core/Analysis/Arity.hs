@@ -128,7 +128,7 @@ arityOfExp xx
 
 -- | Determine the arity of an expression by looking at its type.
 --   Count all the function arrows, and foralls.
-arityFromType :: Ord n => Type n -> Maybe Int
+arityFromType :: Type n -> Maybe Int
 arityFromType tt
         | TForall _ t   <- tt
         = case arityFromType t of

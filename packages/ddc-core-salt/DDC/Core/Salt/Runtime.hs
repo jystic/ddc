@@ -11,6 +11,10 @@ module DDC.Core.Salt.Runtime
         , rTop
 
           -- * Functions defined in the runtime system.
+        , xAllocInit
+        , xAllocCollect
+        , xCollectInit
+
         , xTagOfObject
 
         , xAllocBoxed
@@ -28,7 +32,6 @@ module DDC.Core.Salt.Runtime
         , xApplyThunk
 
           -- * Calls to primops.
-        , xCreate
         , xAllocSlot
         , xRead
         , xWrite
@@ -54,8 +57,18 @@ import Data.Map                 (Map)
 -- | Runtime system configuration
 data Config
         = Config
-        { -- | Used a fixed-size heap of this many bytes.
-          configHeapSize        :: Integer 
+        { -- | Use two fixed-size heaps of this many bytes. We allocate two
+          --   heaps as the garbage collector is a two-space copying collector.
+          configHeapSize        :: Integer
+
+          -- | How many pointers to heap objects can we hold in the slot
+          --   stack.
+          --
+          --   The slot stack mirrors the actual stack, but differs in
+          --   that it only contains pointers to heap objects. The garbage
+          --   collector uses this information to determine which heap objects
+          --   are still live in the program.
+        , configSlotStackSize   :: Integer
         }
 
 
@@ -72,7 +85,10 @@ runtimeImportKinds
 runtimeImportTypes :: Map Name (ImportValue Name)
 runtimeImportTypes
  = Map.fromList 
-   [ rn utTagOfObject
+   [ rn utAllocInit
+   , rn utAllocCollect
+   , rn utCollectInit
+   , rn utTagOfObject
    , rn utAllocBoxed
    , rn utGetFieldOfBoxed
    , rn utSetFieldOfBoxed
@@ -92,6 +108,39 @@ runtimeImportTypes
  where   rn (UName n, t)  = (n, ImportValueSea (renderPlain $ ppr n) t)
          rn _   = error "ddc-core-salt: all runtime bindings must be named."
 
+
+-- Garbage Collector ----------------------------------------------------------
+-- | Create the two-space heap.
+xAllocInit :: a -> Integer -> Exp a Name
+xAllocInit a bytes
+ = XApp a (XVar a $ fst utAllocInit)
+          (xNat a bytes)
+
+utAllocInit :: (Bound Name, Type Name)
+utAllocInit
+ =      ( UName (NameVar "allocInit")
+        , tNat `tFunPE` tUnit )
+
+-- | Check if allocation is possible, if not perform garbage collection.
+xAllocCollect :: a -> Exp a Name -> Exp a Name
+xAllocCollect a bytes
+ = XApp a (XVar a $ fst utAllocCollect) bytes
+
+utAllocCollect :: (Bound Name, Type Name)
+utAllocCollect
+ =      ( UName (NameVar "allocCollect")
+        , tNat `tFunPE` tUnit )
+
+-- | Create the slot stack.
+xCollectInit :: a -> Integer -> Exp a Name
+xCollectInit a bytes
+ = XApp a (XVar a $ fst utCollectInit)
+          (xNat a bytes)
+
+utCollectInit :: (Bound Name, Type Name)
+utCollectInit
+ =      ( UName (NameVar "collectInit")
+        , tNat `tFunPE` tUnit )
 
 -- Tags -----------------------------------------------------------------------
 -- | Get the constructor tag of an object.
@@ -310,17 +359,6 @@ utApplyThunk arity
 
 
 -- Primops --------------------------------------------------------------------
--- | Create the heap.
-xCreate :: a -> Integer -> Exp a Name
-xCreate a bytes
-        = XApp a (XVar a uCreate) 
-                 (xNat  a bytes) 
-
-uCreate :: Bound Name
-uCreate = UPrim (NamePrimOp $ PrimStore $ PrimStoreCreate)
-                (tNat `tFunPE` tVoid)
-
-
 -- | Allocate a pointer on the stack for a GC root.
 xAllocSlot :: a -> Region Name -> Exp a Name
 xAllocSlot a tR

@@ -74,7 +74,9 @@ opt1_salt config dconfig builder runtimeConfig filePath
         --  depending on the pointer width of the target architecture.
         let inlineModulePaths
                 =  [ configBaseDir config 
-                        </> "salt/runtime" ++ show targetWidth </> "Object.dcs"]
+                        </> "salt/runtime" ++ show targetWidth </> "Object.dcs"
+                   , configBaseDir config
+                        </> "salt/runtime"                     </> "Collect.dcs" ]
                 ++ configWithSalt config
 
         -- Load all the modues that we're using for inliner templates.

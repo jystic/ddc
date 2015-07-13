@@ -243,9 +243,6 @@ typeOfPrimStore jj
         PrimStoreSize2
          -> tForall kData $ \_ -> tNat
 
-        PrimStoreCreate
-         -> tNat `tFunPE` tVoid
-
         PrimStoreCheck
          -> tNat `tFunPE` tBool
 
@@ -293,6 +290,33 @@ typeOfPrimStore jj
 
         PrimStoreCastPtr
          -> tForalls [kRegion, kData, kData] $ \[r,t1,t2] -> tPtr r t2 `tFunPE` tPtr r t1
+
+        PrimStoreSlotBase
+         -> tAddr
+
+        PrimStoreSlotTop
+         -> tAddr
+
+        PrimStoreSlotMax
+         -> tAddr
+
+        PrimStoreHeapBase
+         -> tAddr
+
+        PrimStoreHeapTop
+         -> tAddr
+
+        PrimStoreHeapMax
+         -> tAddr
+
+        PrimStoreHeapBackBase
+         -> tAddr
+
+        PrimStoreHeapBackTop
+         -> tAddr
+
+        PrimStoreHeapBackMax
+         -> tAddr
 
 
 -------------------------------------------------------------------------------

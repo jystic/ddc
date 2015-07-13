@@ -159,7 +159,7 @@ readPrimTyConStem str
 -- | Integral constructors are the ones that we can reasonably
 --   convert from integers of the same size. 
 --  
---   These are @Bool#@, @Nat#@, @Int#@, @Size@, @WordN#@ and @Tag#@.
+--   These are @Bool#@, @Nat#@, @Int#@, @Size@, @WordN#@, @Tag#@, @Addr#@ and @Ptr#@.
 --
 primTyConIsIntegral :: PrimTyCon -> Bool
 primTyConIsIntegral tc
@@ -170,6 +170,8 @@ primTyConIsIntegral tc
         PrimTyConSize           -> True
         PrimTyConWord{}         -> True
         PrimTyConTag            -> True
+        PrimTyConAddr           -> True
+        PrimTyConPtr            -> True
         _                       -> False
 
 
@@ -185,7 +187,7 @@ primTyConIsFloating tc
 
 -- | Unsigned types.
 --
---   These are @Bool#@ @Nat#@ @Size#@ @WordN@ @Tag@.
+--   These are @Bool#@ @Nat#@ @Size#@ @WordN@ @Tag@ @Addr#@ @Ptr#@.
 primTyConIsUnsigned :: PrimTyCon -> Bool
 primTyConIsUnsigned tc
  = case tc of
@@ -194,6 +196,8 @@ primTyConIsUnsigned tc
         PrimTyConSize           -> True
         PrimTyConWord{}         -> True
         PrimTyConTag            -> True
+        PrimTyConAddr           -> True
+        PrimTyConPtr            -> True
         _                       -> False
 
 -- | Signed integral constructors.

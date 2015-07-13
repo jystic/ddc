@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -w #-}
 
 module DDC.Llvm.Analysis.Parents
         ( Parents (..)
@@ -10,6 +11,8 @@ import Data.Set                 (Set)
 import qualified Data.Set       as Set
 import qualified Data.Map       as Map
 import Data.Maybe
+
+import Debug.Trace
 
 
 -- | The parents of a node are the other nodes that might branch
@@ -60,7 +63,7 @@ lineageOfVar
         -> Maybe [Label]
 
 lineageOfVar graph target start
- = go start
+ = trace (show target ++ ", " ++ show start) $ go start
  where  go label
          | Just node    <- lookupNodeOfGraph graph label
          , defs         <- defVarsOfBlock $ blockOfNode node

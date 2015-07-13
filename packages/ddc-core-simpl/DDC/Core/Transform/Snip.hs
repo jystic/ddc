@@ -335,10 +335,17 @@ snipLetBody config a xx
 isAtom :: Exp a n -> Bool
 isAtom xx
  = case xx of
-        XVar{}          -> True
         XCon{}          -> True
         XType{}         -> True
         XWitness{}      -> True
+
+        XVar _ x
+         | UPrim _ t    <- x
+         , Just 0       <- arityFromType t
+         -> False
+
+         | otherwise
+         -> True
 
         -- Keep applications of variables to their types together.
 --        XApp _ x1 XType{} -> isAtom x1

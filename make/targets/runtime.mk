@@ -3,7 +3,8 @@
 # -----------------------------------------------------------------------------
 # Runtime for new compiler
 salt-runtime_dcs = \
-	$(shell find packages/ddc-code/salt/runtime${BITS}     -name "*.dcs")
+	$(shell find packages/ddc-code/salt/runtime${BITS}     -name "*.dcs") \
+	$(shell find packages/ddc-code/salt/runtime            -name "*.dcs")
 
 salt-runtime_c   = \
         $(shell find packages/ddc-code/sea/primitive           -name "*.c")
