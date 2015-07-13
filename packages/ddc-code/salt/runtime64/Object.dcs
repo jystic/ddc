@@ -67,7 +67,7 @@
 --
 module  Object 
 export value
-  getTag            : [r : Region]. Ptr# r Obj -> Tag#
+  tagOfObject       : [r : Region]. Ptr# r Obj -> Tag#
 
   allocThunk        : [r : Region]. Addr# -> Nat# -> Nat# -> Nat# -> Nat# -> Ptr# r Obj
   setFieldOfThunk   : [r : Region]. Ptr# r Obj  -> Nat# -> Nat# -> Addr# -> Void#
@@ -119,7 +119,7 @@ export value
 with letrec
 
 -- | Get the constructor tag of an object.
-getTag [r : Region] (obj : Ptr# r Obj) : Tag#
+tagOfObject [r : Region] (obj : Ptr# r Obj) : Tag#
  = do   
         ptr             = castPtr# obj
         header          = peek# ptr 0#

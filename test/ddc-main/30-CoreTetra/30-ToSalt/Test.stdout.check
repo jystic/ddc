@@ -180,7 +180,7 @@ module Test with
 letrec {
   headUnit : Ptr# rT Obj -> Ptr# rT Obj
     = \(xx : Ptr# rT Obj).
-      case getTag [rT] xx of {
+      case tagOfObject [rT] xx of {
         TAG1#  
          -> let x : Ptr# rT Obj
                   = getFieldOfBoxed [rT] [Ptr# rT Obj] xx 0# in
