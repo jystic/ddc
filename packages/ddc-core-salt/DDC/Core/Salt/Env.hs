@@ -255,6 +255,9 @@ typeOfPrimStore jj
         PrimStoreAlloc
          -> tNat `tFunPE` tAddr
 
+        PrimStoreAllocSlot
+         -> tForall kRegion $ \r -> tPtr rTop (tPtr r tObj)
+
         PrimStoreRead           
          -> tForall kData $ \t -> tAddr  `tFunPE` tNat `tFunPE` t
 
