@@ -31,7 +31,9 @@ module DDC.Core.Salt.Runtime
         , xCreate
         , xRead
         , xWrite
+        , xPeek
         , xPeekBuffer
+        , xPoke
         , xPokeBuffer
         , xFail
         , xReturn)
@@ -345,31 +347,41 @@ uWrite   = UPrim (NamePrimOp $ PrimStore $ PrimStoreWrite)
                  (tForall kData $ \t -> tAddr `tFunPE` tNat `tFunPE` t `tFunPE` tVoid)
 
 
+-- | Peek a value from a pointer plus offset
+xPeek :: a -> Type Name -> Type Name -> Exp a Name -> Integer -> Exp a Name
+xPeek a r t xPtr offset
+ = XApp a (XApp a (XApp a (XApp a (XVar a uPeek)
+                                  (XType a r))
+                          (XType a t))
+                   xPtr)
+          (xNat a offset)
+
 -- | Peek a value from a buffer pointer plus offset
 xPeekBuffer :: a -> Type Name -> Type Name -> Exp a Name -> Integer -> Exp a Name
 xPeekBuffer a r t xPtr offset
  = let castedPtr = xCast a r t (tWord 8) xPtr
-   in  XApp a (XApp a (XApp a (XApp a (XVar a uPeek) 
-                                      (XType a r)) 
-                              (XType a t)) 
-                       castedPtr) 
-              (xNat a offset)
+   in  xPeek a r t castedPtr offset
 
 uPeek :: Bound Name
 uPeek = UPrim (NamePrimOp $ PrimStore $ PrimStorePeek)
               (typeOfPrimStore PrimStorePeek)
               
 
+-- | Poke a value from a pointer plus offset
+xPoke :: a -> Type Name -> Type Name -> Exp a Name -> Integer -> Exp a Name -> Exp a Name
+xPoke a r t xPtr offset xVal
+ = XApp a (XApp a (XApp a (XApp a (XApp a (XVar a uPoke)
+                                          (XType a r))
+                                  (XType a t))
+                          xPtr)
+                  (xNat a offset))
+          xVal
+
 -- | Poke a value from a buffer pointer plus offset
 xPokeBuffer :: a -> Type Name -> Type Name -> Exp a Name -> Integer -> Exp a Name -> Exp a Name
 xPokeBuffer a r t xPtr offset xVal
  = let castedPtr = xCast a r t (tWord 8) xPtr
-   in  XApp a (XApp a (XApp a (XApp a (XApp a (XVar a uPoke) 
-                                              (XType a r)) 
-                                      (XType a t)) 
-                               castedPtr) 
-                      (xNat a offset))
-              xVal
+   in  xPoke a r t castedPtr offset xVal
 
 uPoke :: Bound Name
 uPoke = UPrim (NamePrimOp $ PrimStore $ PrimStorePoke)
