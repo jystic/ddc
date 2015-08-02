@@ -43,7 +43,11 @@ module DDC.Core.Salt
 
           -- * Program lexing
         , lexModuleString
-        , lexExpString)
+        , lexExpString
+
+          -- * Name generation
+        , freshT
+        , freshX)
 
 where
 import DDC.Core.Salt.Name

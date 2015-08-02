@@ -3,13 +3,19 @@
 module DDC.Core.Salt.Profile
         ( profile
         , lexModuleString
-        , lexExpString)
+        , lexExpString
+        , freshT
+        , freshX)
 where
 import DDC.Core.Salt.Env
 import DDC.Core.Salt.Name
 import DDC.Core.Fragment
 import DDC.Core.Lexer
 import DDC.Data.Token
+import DDC.Type.Exp
+import DDC.Type.Env                     (Env)
+import qualified DDC.Type.Env           as Env
+import Control.Monad.State.Strict
 
 
 -- | Language profile for Disciple Core Salt.
@@ -71,3 +77,25 @@ lexExpString sourceName lineStart str
         = case renameTok readName strTok of
                 Just t' -> Token t' sp
                 Nothing -> Token (KErrorJunk "lexical error") sp
+
+
+-- | Create a new type variable name that is not in the given environment.
+freshT :: Env Name -> Bind Name -> State Int Name
+freshT env bb
+ = do   i       <- get
+        put (i + 1)
+        let n =  NameVar ("t" ++ show i)
+        case Env.lookupName n env of
+         Nothing -> return n
+         _       -> freshT env bb
+
+
+-- | Create a new value variable name that is not in the given environment.
+freshX :: Env Name -> Bind Name -> State Int Name
+freshX env bb
+ = do   i       <- get
+        put (i + 1)
+        let n = NameVar ("x" ++ show i)
+        case Env.lookupName n env of
+         Nothing -> return n
+         _       -> freshX env bb
