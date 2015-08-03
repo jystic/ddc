@@ -342,7 +342,7 @@ xRead a tField xAddr offset
 
 uRead   :: Bound Name
 uRead   = UPrim (NamePrimOp $ PrimStore $ PrimStoreRead)
-                (tForall kData $ \t -> tAddr `tFunPE` tNat `tFunPE` t)
+                (typeOfPrimStore PrimStoreRead)
 
 
 -- | Write a value to an address plus offset.
@@ -356,7 +356,7 @@ xWrite a tField xAddr offset xVal
 
 uWrite   :: Bound Name
 uWrite   = UPrim (NamePrimOp $ PrimStore $ PrimStoreWrite)
-                 (tForall kData $ \t -> tAddr `tFunPE` tNat `tFunPE` t `tFunPE` tVoid)
+                 (typeOfPrimStore PrimStoreWrite)
 
 
 -- | Peek a value from a pointer plus offset
