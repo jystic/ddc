@@ -96,10 +96,12 @@ stageSaltToLLVM config source pipesLLVM
      [ PipeCoreOutput       pprDefaultMode
                             (dump config source "dump.salt-normalized.dcs")
      , PipeCoreAsSalt
-       [ PipeSaltTransfer
-         [ PipeSaltOutput   (dump config source "dump.salt-transfer.dcs")
-         , PipeSaltToLlvm   (buildSpec $ configBuilder config) 
-                            pipesLLVM ]]]]
+       [ PipeSaltSlotify
+         [ PipeSaltOutput   (dump config source "dump.salt-slotify.dcs")
+         , PipeSaltTransfer
+           [ PipeSaltOutput (dump config source "dump.salt-transfer.dcs")
+           , PipeSaltToLlvm (buildSpec $ configBuilder config)
+                            pipesLLVM ]]]]]
 
  where  normalizeSalt
          = S.anormalize (makeNamifier Salt.freshT) 
