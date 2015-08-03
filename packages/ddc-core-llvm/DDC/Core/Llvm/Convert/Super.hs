@@ -95,7 +95,8 @@ convertSuper ctx (C.BName nSuper tSuper) x
                 , declReturnType        = tResult
                 , declParamListType     = FixedArgs
                 , declParams            = [Param t [] | t <- tsParam]
-                , declAlign             = align }
+                , declAlign             = align
+                , declGarbageCollector  = Just "shadow-stack" }
 
 
         -- Build the function.

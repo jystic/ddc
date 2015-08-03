@@ -17,25 +17,25 @@ declare external ccc void @abort() align 8
 declare external void @llvm.gcroot(i8** , i8* )
 declare external void @llvm.memcpy.p0i8.p0i8.i64(i8* , i8* , i64 , i32 , i1 )
 
-define internal fastcc i64 @nat(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @nat(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l1.entry:
         ret i64 8
 }
 
-define internal fastcc i64 @int(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @int(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l3.entry:
         ret i64 8
 }
 
-define internal fastcc i64 @word16(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @word16(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l5.entry:
         ret i64 2
 }
 
-define internal fastcc i64 @tag(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @tag(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l7.entry:
         ret i64 4
@@ -56,37 +56,37 @@ declare external ccc void @abort() align 8
 declare external void @llvm.gcroot(i8** , i8* )
 declare external void @llvm.memcpy.p0i8.p0i8.i64(i8* , i8* , i64 , i32 , i1 )
 
-define internal fastcc i64 @nat(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @nat(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l1.entry:
         ret i64 3
 }
 
-define internal fastcc i64 @int(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @int(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l3.entry:
         ret i64 3
 }
 
-define internal fastcc i64 @word8(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @word8(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l5.entry:
         ret i64 0
 }
 
-define internal fastcc i64 @word16(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @word16(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l7.entry:
         ret i64 1
 }
 
-define internal fastcc i64 @ptr(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @ptr(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l12.entry:
         ret i64 3
 }
 
-define internal fastcc i64 @tag(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @tag(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l14.entry:
         ret i64 2
@@ -108,7 +108,7 @@ declare external ccc void @abort() align 8
 declare external void @llvm.gcroot(i8** , i8* )
 declare external void @llvm.memcpy.p0i8.p0i8.i64(i8* , i8* , i64 , i32 , i1 )
 
-define internal fastcc i64 @blerk(%s.Obj*  %_arg0) align 8  
+define internal fastcc i64 @blerk(%s.Obj*  %_arg0) align 8 gc "shadow-stack"  
 {
 l1.entry:
         ret i64 3

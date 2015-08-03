@@ -195,7 +195,8 @@ primDecls pp
         , declReturnType        = TVoid
         , declParamListType     = FixedArgs
         , declParams            = []
-        , declAlign             = AlignBytes (platformAlignBytes pp) }
+        , declAlign             = AlignBytes (platformAlignBytes pp)
+        , declGarbageCollector  = Nothing }
 
    ,    FunctionDecl
         { declName              = textOfName nameGlobalGcroot
@@ -205,7 +206,8 @@ primDecls pp
         , declParamListType     = FixedArgs
         , declParams            = [ Param (TPointer (TPointer (TInt 8))) []
                                   , Param (TPointer (TInt 8)) [] ]
-        , declAlign             = AlignNone }
+        , declAlign             = AlignNone
+        , declGarbageCollector  = Nothing }
 
    ,    FunctionDecl
         { declName              = textOfName (nameGlobalMemcpy pp)
@@ -218,7 +220,8 @@ primDecls pp
                                   , Param (tNat pp)  []
                                   , Param (TInt 32)  []
                                   , Param (TInt 1)   [] ]
-        , declAlign             = AlignNone }
+        , declAlign             = AlignNone
+        , declGarbageCollector  = Nothing }
 
    ]
 

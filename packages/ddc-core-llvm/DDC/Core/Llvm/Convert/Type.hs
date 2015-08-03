@@ -76,13 +76,14 @@ convertType pp kenv tt
                 return  
                   $ TPointer $ TFunction 
                   $ FunctionDecl
-                  { declName          = "dummy.function.name"
-                  , declLinkage       = Internal
-                  , declCallConv      = CC_Ccc
-                  , declReturnType    = tResult
-                  , declParamListType = FixedArgs
-                  , declParams        = [Param t [] | t <- tsArgs]
-                  , declAlign         = AlignBytes (platformAlignBytes pp) }
+                  { declName                    = "dummy.function.name"
+                  , declLinkage                 = Internal
+                  , declCallConv                = CC_Ccc
+                  , declReturnType              = tResult
+                  , declParamListType           = FixedArgs
+                  , declParams                  = [Param t [] | t <- tsArgs]
+                  , declAlign                   = AlignBytes (platformAlignBytes pp)
+                  , declGarbageCollector        = Just "shadow-stack" }
         
         C.TForall b t
          -> let kenv'   = Env.extend b kenv
@@ -144,26 +145,28 @@ importedFunctionDeclOfType pp kenv isrc mesrc nSuper tt
         (tsArgs, tResult)       <- convertSuperType pp kenv tt
         let mkParam t           = Param t []
         return  $ FunctionDecl
-                { declName           = A.sanitizeName strName
-                , declLinkage        = External
-                , declCallConv       = CC_Ccc
-                , declReturnType     = tResult
-                , declParamListType  = FixedArgs
-                , declParams         = map mkParam tsArgs
-                , declAlign          = AlignBytes (platformAlignBytes pp) }
+                { declName              = A.sanitizeName strName
+                , declLinkage           = External
+                , declCallConv          = CC_Ccc
+                , declReturnType        = tResult
+                , declParamListType     = FixedArgs
+                , declParams            = map mkParam tsArgs
+                , declAlign             = AlignBytes (platformAlignBytes pp)
+                , declGarbageCollector  = Just "shadow-stack" }
 
  | C.ImportValueSea strName _  <- isrc
  = Just $ do
         (tsArgs, tResult)       <- convertSuperType pp kenv tt
         let mkParam t           = Param t []
         return  $ FunctionDecl
-                { declName           = A.sanitizeName strName
-                , declLinkage        = External
-                , declCallConv       = CC_Ccc
-                , declReturnType     = tResult
-                , declParamListType  = FixedArgs
-                , declParams         = map mkParam tsArgs
-                , declAlign          = AlignBytes (platformAlignBytes pp) }
+                { declName              = A.sanitizeName strName
+                , declLinkage           = External
+                , declCallConv          = CC_Ccc
+                , declReturnType        = tResult
+                , declParamListType     = FixedArgs
+                , declParams            = map mkParam tsArgs
+                , declAlign             = AlignBytes (platformAlignBytes pp)
+                , declGarbageCollector  = Nothing }
 
 importedFunctionDeclOfType _ _ _ _ _ _
         = Nothing
